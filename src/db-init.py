@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 logging.info("attempting to connect to database ...")
 db = core.db.get_db()
 
+
 # if no sources, init from data file
 if not db.sources.find_one():
     for path in [".", "../data"]:

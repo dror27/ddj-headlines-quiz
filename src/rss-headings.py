@@ -24,6 +24,21 @@ for source in db.sources.find():
         entry["_source"] = source
         entry["_fetched"] = datetime.datetime.utcnow()
         entry["_timestamp"] = datetime.datetime(*entry["published_parsed"][0:6]) if "published_parsed" in entry else entry["_fetched"]
-        
-        key = {"id": entry.id}
-        db.headings.replace_one(key, entry, True)
+
+        if not "id" in entry:
+            for fallback in ["link", "link_url", "default"]:
+                if fallback in entry:
+                    entry["id"] = entry[fallback]
+                    break
+                    
+        try:
+            key = {"id": entry.id}
+            db.headings.replace_one(key, entry, True)
+        except AttributeError as e:
+            pprint("exception:")
+            pprint(e)
+            pprint("source:")
+            pprint(source)
+            pprint("entry:")
+            pprint(entry)
+            break
