@@ -1,0 +1,47 @@
+todo file
+
+Release 1
+
+code:
+[x] /sources - select sources, show selected sources
+[x] add a domain field to the source entries. value for existing is something like: "uknews"
+[x] remove quiz prefix (first line) after the first one
+[x] credits (rss, feedburner, sources)
+[x] sha265 usernames?
+[x] make QRCode with link to bot: https://t.me/HeadlinerQuizBot
+[x] separate code into multiple files
+[x] mention contact telegram account
+[x] non container run
+[x] inplement command to send qr code
+[x] get own user info back
+[x] headings indexes (timestamp, source.name, source.domain)
+[x] repeat last keyword 
+
+[ ] raw export of headline data - straight mongodb dunp?
+[ ] unique id for sources
+[ ] /stats
+[ ] remove rss links from sources, move to advanced area
+[ ] refine quiz display, remove "anonymous", 100%, etc
+[ ] donate? paywall?
+[ ] downloads (headings, sources)
+[ ] push? (subscription)
+[ ] analysis plugins: sentiment, author gender
+[ ] include additional fields in text search (tags, ?)
+[ ] userlog table (quiz presented, quiz answered)
+[ ] inline usage - allow shared quiz inside a group conversation (competitive)
+[ ] Japanses/Hebrew headlines
+[ ] about
+[ ] user table index (uid)
+
+
+
+meta:
+[ ] consult on how to structure so that research can use the accumulated data
+[ ] partner on the project
+[ ] spin into a separate repo?
+[ ] separate repo for data snapshots (weekly? automate)
+
+why? (value)
+[ ] personal: get to know media outlets and their leanings/style
+[ ] personal: improve headline writing
+
