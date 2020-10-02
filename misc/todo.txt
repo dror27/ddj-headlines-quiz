@@ -2,12 +2,11 @@ todo file
 
 Release 1
 
-code:
 [x] /sources - select sources, show selected sources
 [x] add a domain field to the source entries. value for existing is something like: "uknews"
 [x] remove quiz prefix (first line) after the first one
 [x] credits (rss, feedburner, sources)
-[x] sha265 usernames?
+[x] sha256 usernames?
 [x] make QRCode with link to bot: https://t.me/HeadlinerQuizBot
 [x] separate code into multiple files
 [x] mention contact telegram account
@@ -17,23 +16,31 @@ code:
 [x] headings indexes (timestamp, source.name, source.domain)
 [x] repeat last keyword 
 
-[ ] add auto id on rss-headings. maybe sha26 of publish date and title
+Release 2
+
+[x] user table index (uid)
+[x] /domains, /domain 
+[x] Hebrew headlines
+[x] /q2
+[x] /q should repeat prefered length
+
+
+[ ] include additional fields in text search (tags, ?)
 [ ] raw export of headline data - straight mongodb dunp?
+[ ] downloads (headings, sources)
+[ ] userlog table (quiz presented, quiz answered)
+[ ] about
 [ ] unique id for sources
 [ ] /stats
 [ ] remove rss links from sources, move to advanced area
 [ ] refine quiz display, remove "anonymous", 100%, etc
 [ ] donate? paywall?
-[ ] downloads (headings, sources)
 [ ] push? (subscription)
 [ ] analysis plugins: sentiment, author gender
-[ ] include additional fields in text search (tags, ?)
-[ ] userlog table (quiz presented, quiz answered)
 [ ] inline usage - allow shared quiz inside a group conversation (competitive)
-[ ] Japanses/Hebrew headlines
-[ ] about
-[ ] user table index (uid)
-
+[ ] Japanses headlines
+[.] specific user id for seeding sha256 when no username exists (now uses chat_id)
+[.] add auto id on rss-headings. maybe sha26 of publish date and title
 
 
 meta:

@@ -18,6 +18,7 @@ import cmd.start
 import cmd.quiz
 import cmd.help
 import cmd.sources
+import cmd.domain
 import cmd.userinfo
 
 
@@ -34,6 +35,8 @@ def main():
     
     dp.add_handler(CommandHandler('quiz', cmd.quiz.quiz))
     dp.add_handler(CommandHandler('q', cmd.quiz.quiz))
+    dp.add_handler(CommandHandler('quiz2', lambda update,context: cmd.quiz.quiz(update, context, 2)))
+    dp.add_handler(CommandHandler('q2', lambda update,context: cmd.quiz.quiz(update, context, 2)))
     dp.add_handler(CommandHandler('quiz3', lambda update,context: cmd.quiz.quiz(update, context, 3)))
     dp.add_handler(CommandHandler('q3', lambda update,context: cmd.quiz.quiz(update, context, 3)))
     dp.add_handler(CommandHandler('quiz4', lambda update,context: cmd.quiz.quiz(update, context, 4)))
@@ -46,6 +49,7 @@ def main():
     dp.add_handler(CommandHandler('credits', cmd.help.credits_handler))
     dp.add_handler(CommandHandler('qr', cmd.help.qr_handler))
     dp.add_handler(CommandHandler('sources', cmd.sources.sources_handler))
+    dp.add_handler(CommandHandler('domain', cmd.domain.domain_handler))
     dp.add_handler(CommandHandler('userinfo', cmd.userinfo.userinfo_handler))
 
     logger.info("starting to poll")

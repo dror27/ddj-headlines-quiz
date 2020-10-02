@@ -10,14 +10,13 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def build_heading_quiz(answers, keyword=None, sources_subset=None):
+def build_heading_quiz(answers, domain, keyword=None, sources_subset=None):
 
     db = core.db.get_db()
     
     # loop for 10 attempts
     midnight = datetime.datetime.combine(datetime.date.today(), datetime.datetime.min.time())
-    sources_all = [x["name"] for x in db.sources.find()]
-    domain = core.db.db_env("DOMAIN", "uknews")
+    sources_all = [x["name"] for x in core.db.db_sources(domain)]
 
     # subset sources?
     if sources_subset and len(sources_subset) > 1 :
@@ -54,7 +53,7 @@ def build_heading_quiz(answers, keyword=None, sources_subset=None):
             }
             if keyword:
                 query_fields["$text"] = {"$search": keyword}
-            
+
             source_headings = list(db.headings.aggregate(
                 [
                     {"$match": query_fields },

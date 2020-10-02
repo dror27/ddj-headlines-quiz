@@ -6,8 +6,8 @@ import core.user
 
 def sources_handler(update, context):
 
-	sources = core.db.db_sources()
 	info = core.user.get_user_info(update)
+	sources = core.db.db_sources(core.user.get_user_domain(info))
 	msg = ""
 
 	# parse optional command
@@ -35,5 +35,5 @@ def sources_handler(update, context):
 	for source in sources:
 	    index = index + 1;
 	    marker = "*" if index in info["sources"] else ""
-	    msg += (str(index) + marker + " " + source["name"] + " - " + source["rss"] + "\n")
+	    msg += (str(index) + marker + " " + source["name"] + "\n")
 	update.message.reply_text(msg)

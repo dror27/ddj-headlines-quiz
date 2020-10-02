@@ -37,10 +37,14 @@ if not db.sources.find_one():
 logger.info("number of sources: %d" % db.command("collstats", "sources")["count"])
 
 # set up indexes
+db.users.create_index([('uid', pymongo.ASCENDING)], name='uid_index')
+
 db.headings.create_index([('title', pymongo.TEXT)], name='search_index', default_language='english')
 db.headings.create_index([('_timestamp', pymongo.DESCENDING)], name='timestamp_index')
 db.headings.create_index([('_source.name', pymongo.ASCENDING)], name='source_name_index')
 db.headings.create_index([('_source.domain', pymongo.ASCENDING)], name='domain_name_index')
+
+logger.info("domains: " + str(core.db.db_domains()))
 
 def waitForNextHour():
     nexthour = datetime.datetime.replace(datetime.datetime.now() + datetime.timedelta(hours=1),minute=0, second=0)

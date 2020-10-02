@@ -27,6 +27,10 @@ def db_env(name, defaultValue=None):
 	#logger.info("key %s value %s" % (key, value))
 	return value
 
-def db_sources():
-    return [source for source in get_db().sources.find()]
+def db_sources(domain):
+    return [source for source in get_db().sources.find({"domain": domain})]
+
+def db_domains():
+    return [domain for domain in get_db().sources.distinct("domain")]
+
 

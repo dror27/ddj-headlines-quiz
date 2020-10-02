@@ -37,3 +37,9 @@ def set_user_info(update, info):
     key = {"uid": uid}
     core.db.get_db().users.replace_one(key, info, True)
 
+def get_user_domain(info):
+    return info["domain"] if "domain" in info else core.db.db_env("DOMAIN", "uknews")
+
+def set_user_domain(info, domain):
+    info["domain"] = domain
+

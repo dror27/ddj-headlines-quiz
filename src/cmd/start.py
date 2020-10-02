@@ -3,7 +3,7 @@
 import cmd.quiz
 
 def start(update, context):
-    update.message.reply_text("Headings Quiz Bot, (c) Dror Kessler 2020\n"
+    update.message.reply_text("Headings Quiz Bot\n"
                               "headings sources from public rss feeds\n"
                               "\n"
                               "Please select /quiz or /help for more commands")

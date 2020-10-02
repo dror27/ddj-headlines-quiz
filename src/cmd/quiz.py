@@ -6,11 +6,18 @@ from telegram import (Poll)
 import cmd.common
 import core.user
 import core.quiz_builder
+import core.rss
 
-def quiz(update, context, qs=2):
+def quiz(update, context, qs=None):
 
     info = core.user.get_user_info(update)
     info["quizs"] = info["quizs"] + 1
+
+    # establish qs
+    if not qs:
+        qs = info["qs"] if "qs" in info else 2
+    else:
+        info["qs"] = qs
 
     # extract keyword text or get it from user info
     keyword = cmd.common.cmd_tail(update)
@@ -23,7 +30,7 @@ def quiz(update, context, qs=2):
     elif "keyword" in info and info["keyword"]:
         keyword = info["keyword"]
     
-    q = core.quiz_builder.build_heading_quiz(qs, keyword=keyword, sources_subset=info["sources"])
+    q = core.quiz_builder.build_heading_quiz(qs, core.user.get_user_domain(info), keyword=keyword, sources_subset=info["sources"])
     if not q:
         q = core.quiz_builder.build_default_quiz()
         
@@ -62,4 +69,4 @@ def receive_quiz_answer(update, context):
     if update.poll:
         quiz_data = context.bot_data[update.poll.id]
         chat_id = quiz_data["chat_id"]
-        new_job = context.job_queue.run_once(quiz_post_timer, 2, context=quiz_data)
+        new_job = context.job_queue.run_once(quiz_post_timer, 0.5, context=quiz_data)
