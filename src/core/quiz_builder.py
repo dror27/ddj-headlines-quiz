@@ -71,7 +71,7 @@ def build_heading_quiz(answers, keyword=None, sources_subset=None):
         if heading_source_name:
             random.shuffle(sources)
             index = sources.index(heading_source_name)
-            return {"title": heading["title"], "sources": sources, "index": index, "link": heading["link"]}
+            return {"title": heading["title"], "sources": sources, "index": index, "link": core.rss.get_entry_link(heading)}
     
     # if here, not found, try without keyword
     if keyword:

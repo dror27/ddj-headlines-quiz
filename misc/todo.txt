@@ -17,6 +17,7 @@ code:
 [x] headings indexes (timestamp, source.name, source.domain)
 [x] repeat last keyword 
 
+[ ] add auto id on rss-headings. maybe sha26 of publish date and title
 [ ] raw export of headline data - straight mongodb dunp?
 [ ] unique id for sources
 [ ] /stats

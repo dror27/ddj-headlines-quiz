@@ -7,6 +7,7 @@ from pprint import pprint
 import datetime
 
 import core.db
+import core.rss
 
 # open database connection
 db = core.db.get_db()
@@ -24,12 +25,7 @@ for source in db.sources.find():
         entry["_source"] = source
         entry["_fetched"] = datetime.datetime.utcnow()
         entry["_timestamp"] = datetime.datetime(*entry["published_parsed"][0:6]) if "published_parsed" in entry else entry["_fetched"]
-
-        if not "id" in entry:
-            for fallback in ["link", "link_url", "default"]:
-                if fallback in entry:
-                    entry["id"] = entry[fallback]
-                    break
+        core.rss.ensure_entry_has_id(entry)
                     
         try:
             key = {"id": entry.id}
