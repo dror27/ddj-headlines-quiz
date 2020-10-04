@@ -26,6 +26,8 @@ Release 2
 
 Release 3
 
+[ ] add number of available headlines to /sources
+[ ] use also prev day for headlines (accounts for Sundays and very early mornings)
 [ ] verify that all headings entry have a valid field for public date (a source for _timestamp). 
 [ ] verify no dups in headings database
 [ ] shared polls. created on demand (as now), but saved and shared between users
@@ -35,7 +37,6 @@ Release 3
 [ ] downloads (headings, sources)
 
 
-[ ] add number of available headlines to /sources
 [ ] include additional fields in text search (tags, ?)
 [ ] raw export of headline data - straight mongodb dunp?
 [ ] userlog table (quiz presented, quiz answered)
@@ -62,4 +63,12 @@ meta:
 why? (value)
 [ ] personal: get to know media outlets and their leanings/style
 [ ] personal: improve headline writing
+
+content
+[ ] japan rss: 
+https://blog.feedspot.com/japanese_news_rss_feeds/
+http://rss.asahi.com/rss/asahi/newsheadlines.rdf
+http://www3.nhk.or.jp/rss/news/cat0.xml
+https://www.zakzak.co.jp/rss/news/flash-n.xml
+
 

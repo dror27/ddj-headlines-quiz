@@ -20,6 +20,7 @@ import cmd.help
 import cmd.sources
 import cmd.domain
 import cmd.userinfo
+import cmd.download
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -47,7 +48,8 @@ def main():
     dp.add_handler(CommandHandler('h', cmd.help.help_handler))
     dp.add_handler(CommandHandler('short', cmd.help.short_handler))
     dp.add_handler(CommandHandler('credits', cmd.help.credits_handler))
-    dp.add_handler(CommandHandler('qr', cmd.help.qr_handler))
+    dp.add_handler(CommandHandler('qr', cmd.download.qr_handler))
+    dp.add_handler(CommandHandler('wc', cmd.download.wc_handler))
     dp.add_handler(CommandHandler('sources', cmd.sources.sources_handler))
     dp.add_handler(CommandHandler('domain', cmd.domain.domain_handler))
     dp.add_handler(CommandHandler('userinfo', cmd.userinfo.userinfo_handler))

@@ -1,7 +1,5 @@
 # help command
 
-import os
-
 def help_handler(update, context):
     update.message.reply_text(
 """
@@ -36,6 +34,7 @@ def short_handler(update, context):
 /q 0 - cancel filter
 
 /qr - send qr code
+/wc - generate a wordcloud
 
 /h - /help
 """)
@@ -49,10 +48,4 @@ def credits_handler(update, context):
 contact: @drorkessler
 """)
 
-def qr_handler(update, context):
-    for path in [".", "../data"]:
-      fname = path + "/qr-code.png"
-      if os.path.isfile(fname):
-        update.message.reply_photo(open(fname, 'rb'))
-        break
 

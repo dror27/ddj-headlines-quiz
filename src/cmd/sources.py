@@ -3,11 +3,15 @@
 import cmd.common
 import core.db
 import core.user
+import datetime
 
 def sources_handler(update, context):
 
 	info = core.user.get_user_info(update)
-	sources = core.db.db_sources(core.user.get_user_domain(info))
+	domain = core.user.get_user_domain(info)
+	sources = core.db.db_sources(domain)
+	midnight = datetime.datetime.combine(datetime.date.today(), datetime.datetime.min.time())
+	counts = core.db.db_headings_count(domain, midnight)
 	msg = ""
 
 	# parse optional command
@@ -32,8 +36,12 @@ def sources_handler(update, context):
 
 	# output (user) sources
 	index = 0
+	print(counts)
 	for source in sources:
 	    index = index + 1;
 	    marker = "*" if index in info["sources"] else ""
-	    msg += (str(index) + marker + " " + source["name"] + "\n")
+	    line = str(index) + marker + " " + source["name"] 
+	    if source["name"] in counts:
+	    	line += " (%d)" % counts[source["name"]]
+	    msg += (line + "\n")
 	update.message.reply_text(msg)
