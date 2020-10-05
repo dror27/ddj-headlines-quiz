@@ -13,9 +13,7 @@ logger = logging.getLogger(__name__)
 def get_db():
 
     # open database connection
-    username = db_env("DBUSER", "root")
-    password=  db_env("DBPASS", "mongo")
-    host = db_env("DBHOST", "mongo")
+    username, password, host = db_vars()
     url = ('mongodb://%s:%s@' + host) % (username, password)
     #logger.info("url: " + url)
     client = MongoClient(url)
@@ -62,5 +60,19 @@ def db_headings_count(domain, since=datetime.datetime.min):
     ]
 
     return {doc["_id"]: doc['count'] for doc in get_db().headings.aggregate(agg)}
+
+def db_vars():
+    username = db_env("DBUSER", "root")
+    password=  db_env("DBPASS", "mongo")
+    host = db_env("DBHOST", "mongo")
+    return (username, password, host)
+
+
+def db_export(collection, domain, fields, file):
+    username, password, host = db_vars()
+    cmd = "mongoexport --collection=%s -d headings -u %s -p %s -h %s --authenticationDatabase admin --type=csv -f %s --out %s -q '{\"_source.domain\":\"%s\"}'" %(
+        collection, username, password, host, file, fields, domain)
+    logger.info(cmd)
+    os.system(cmd)
   
 

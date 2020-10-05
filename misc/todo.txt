@@ -26,20 +26,27 @@ Release 2
 
 Release 3
 
-[ ] add number of available headlines to /sources
-[ ] use also prev day for headlines (accounts for Sundays and very early mornings)
+[x] add number of available headlines to /sources
+[x] add language to source
+
+[/] downloads (headings, sources)
+[ ] how to install mongodb client on the docker machine so export can eb called
+[ ] histogram for headines length?
+
+
 [ ] verify that all headings entry have a valid field for public date (a source for _timestamp). 
 [ ] verify no dups in headings database
 [ ] shared polls. created on demand (as now), but saved and shared between users
 [ ] "reward" sticker logic: 3 consecutive answers, 3 days in a row, etc
-[ ] add language to source
 [ ] prompt language according to language of source
-[ ] downloads (headings, sources)
 [ ] wordcloud w/ param (source, keyword)
-[ ] how to install mongodb client on the docker machine so export can eb called
+[ ] remvoe common words from cloud: yes, no, the, on, ...
+
 [ ] reach deeper into history if no headlines for today (What's going on with Channel 4 News?)
-[ ] histogram for headines length?
 [ ] list headlines (for source, for keyword)
+[ ] use also prev day for headlines (accounts for Sundays and very early mornings)
+[ ] bidi word cloud determined by lang from source
+
 
 
 [ ] headlines corrolation?
