@@ -35,6 +35,8 @@ Release 3
 [ ] add language to source
 [ ] prompt language according to language of source
 [ ] downloads (headings, sources)
+[ ] wordcloud w/ param (source, keyword)
+[ ] how to install mongodb client on the docker machine so export can eb called
 
 
 [ ] include additional fields in text search (tags, ?)
