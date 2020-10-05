@@ -35,7 +35,6 @@ def short_handler(update, context):
 
 /qr - send qr code
 /wc - generate a wordcloud
-/hd - dump headings
 
 /h - /help
 """)
