@@ -36,7 +36,7 @@ def wc_handler(update, context):
 		else:
 			wc = wordcloud.WordCloud(width=400, height=200, random_state=1, 
 					background_color='black', colormap='Set2', collocations=False, 
-					font_path='/System/Library/Fonts/ArialHB.ttc',
+					font_path='ArialHB.ttc',
 					stopwords = wordcloud.STOPWORDS).generate(get_display(text))
 
 		wc.to_file(tmp.name)

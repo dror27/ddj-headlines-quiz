@@ -37,8 +37,12 @@ Release 3
 [ ] downloads (headings, sources)
 [ ] wordcloud w/ param (source, keyword)
 [ ] how to install mongodb client on the docker machine so export can eb called
+[ ] reach deeper into history if no headlines for today (What's going on with Channel 4 News?)
+[ ] histogram for headines length?
+[ ] list headlines (for source, for keyword)
 
 
+[ ] headlines corrolation?
 [ ] include additional fields in text search (tags, ?)
 [ ] raw export of headline data - straight mongodb dunp?
 [ ] userlog table (quiz presented, quiz answered)
