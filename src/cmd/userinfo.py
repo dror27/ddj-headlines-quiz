@@ -10,7 +10,7 @@ def userinfo_handler(update, context):
 
 	# generate text
 	info = dict(core.user.get_user_info(update))
-	del info["_id"]
+	info.pop("_id", None)
 	text = json.dumps(info, indent=4)
 
 	# dump to console or download a file
@@ -21,6 +21,5 @@ def userinfo_handler(update, context):
 		with tempfile.NamedTemporaryFile() as tmp:
 			with open(tmp.name, 'w') as f:
 				info = dict(core.user.get_user_info(update))
-				del info["_id"]
 				f.write(text)
 			update.message.reply_document(open(tmp.name, 'rb'), filename="userinfo.json")

@@ -22,7 +22,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: mongo
 
   hqbot:
-    image: hqbot
+    image: hqbot_u
     restart: always
     environment:
       TEL_BOT_TOKEN:

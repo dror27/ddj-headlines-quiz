@@ -1,1 +1,1 @@
-docker build -t hqbot .
+docker build -f Dockerfile -t hqbot_u .
