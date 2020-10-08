@@ -32,6 +32,8 @@ Release 3
 [/] downloads (headings, sources)
 [ ] how to install mongodb client on the docker machine so export can eb called
 [ ] histogram for headines length?
+[ ] wordcloud exclude keywords
+[ ] add headline length histogram as mini histograms (for your sources)
 
 
 [ ] verify that all headings entry have a valid field for public date (a source for _timestamp). 

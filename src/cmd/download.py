@@ -1,13 +1,17 @@
 # download commands
 
 import os
+import io
 import tempfile
 import wordcloud
 import datetime
 import logging
+from bidi.algorithm import get_display
+
 import core.db
 import core.user
-from bidi.algorithm import get_display
+import core.histogram
+import core.time
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -78,3 +82,16 @@ def headings_handler(update, context):
 		core.db.db_export("headings", domain, tmp.name, 
 			"_id,title,link,summary,published,credit,author,updated,_source.name,_source.domain,_source.rss,_source.url,_fetched,_timestamp")
 		update.message.reply_document(open(tmp.name, 'rb'), filename="headings.csv")
+
+def histograms_handler(update, context):
+	info = core.user.get_user_info(update)
+	domain = core.user.get_user_domain(info)
+	since = core.time.midnight()
+	sources_data = core.histogram.histogram_count_data(domain, since)
+	for source, data in sources_data.items():
+			with io.BytesIO() as buf:
+				core.histogram.histogram_plot(data,  source , buf)
+				buf.seek(0)
+				update.message.reply_photo(buf)
+
+

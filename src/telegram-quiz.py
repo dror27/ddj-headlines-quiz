@@ -54,6 +54,8 @@ def main():
     dp.add_handler(CommandHandler('sources', cmd.sources.sources_handler))
     dp.add_handler(CommandHandler('domain', cmd.domain.domain_handler))
     dp.add_handler(CommandHandler('userinfo', cmd.userinfo.userinfo_handler))
+    dp.add_handler(CommandHandler('hist', cmd.download.histograms_handler))
+
 
     logger.info("starting to poll")
     updater.start_polling()

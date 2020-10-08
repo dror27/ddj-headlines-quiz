@@ -61,6 +61,19 @@ def db_headings_count(domain, since=datetime.datetime.min):
 
     return {doc["_id"]: doc['count'] for doc in get_db().headings.aggregate(agg)}
 
+def db_headings_iter(domain, since=datetime.datetime.min):
+    query = {
+        "_timestamp": 
+        {
+            "$gte": since
+        },
+        "_source.domain": domain
+    }
+
+    return get_db().headings.find(query)
+
+
+
 def db_vars():
     username = db_env("DBUSER", "root")
     password=  db_env("DBPASS", "mongo")
