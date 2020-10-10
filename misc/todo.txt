@@ -29,13 +29,27 @@ Release 3
 [x] add number of available headlines to /sources
 [x] add language to source
 
-[/] downloads (headings, sources)
-[ ] how to install mongodb client on the docker machine so export can eb called
-[ ] histogram for headines length?
-[ ] wordcloud exclude keywords
-[ ] add headline length histogram as mini histograms (for your sources)
+[x] downloads (headings, sources)
+[x] how to install mongodb client on the docker machine so export can eb called
+[/] histogram for headines length? 
+[/] quiz fallback when headline with keyword not found
+[/] wordcloud to use keyword spec
+[x] /help and /q added as bot commands at BotFather
+[/] filename for headlines download <domain>_<headlines>_YYMMDD.csv
+[/] add headline length histogram as mini histograms (for your sources)
 
 
+Release 4
+
+[ ] keyword -<keyword> to eliminate, <keyword> to include
+[ ] wordcloud per source
+[ ] keyword command (to set/get)
+
+
+[ ] hidden command to list users
+[ ] search/list headlines w/ keywords (sample)
+
+[ ] default command handler, to show help (and not simply silence)
 [ ] verify that all headings entry have a valid field for public date (a source for _timestamp). 
 [ ] verify no dups in headings database
 [ ] shared polls. created on demand (as now), but saved and shared between users

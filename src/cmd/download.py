@@ -81,17 +81,17 @@ def headings_handler(update, context):
 	with tempfile.NamedTemporaryFile() as tmp:
 		core.db.db_export("headings", domain, tmp.name, 
 			"_id,title,link,summary,published,credit,author,updated,_source.name,_source.domain,_source.rss,_source.url,_fetched,_timestamp")
-		update.message.reply_document(open(tmp.name, 'rb'), filename="headings.csv")
+		filename = "%s_headlines_%s.csv" % (domain, datetime.datetime.now().strftime("%y%m%d"))
+		update.message.reply_document(open(tmp.name, 'rb'), filename=filename)
 
 def histograms_handler(update, context):
 	info = core.user.get_user_info(update)
 	domain = core.user.get_user_domain(info)
 	since = core.time.midnight()
 	sources_data = core.histogram.histogram_count_data(domain, since)
-	for source, data in sources_data.items():
-			with io.BytesIO() as buf:
-				core.histogram.histogram_plot(data,  source , buf)
-				buf.seek(0)
-				update.message.reply_photo(buf)
-
+	title = "headlines wordcount, %s\n@HeadlinerQuizBot" % since.strftime("%d/%m/%Y")
+	with io.BytesIO() as buf:
+		core.histogram.histogram_plot_all(sources_data,  title , buf)
+		buf.seek(0)
+		update.message.reply_photo(buf)
 

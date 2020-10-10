@@ -74,7 +74,7 @@ def build_heading_quiz(answers, domain, keyword=None, sources_subset=None):
     
     # if here, not found, try without keyword
     if keyword:
-        return build_heading_quiz(answers, sources_subset=sources_subset)
+        return build_heading_quiz(answers, domain, sources_subset=sources_subset)
     else:
         return None
 
