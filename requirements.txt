@@ -3,3 +3,5 @@ feedparser
 python-telegram-bot
 wordcloud
 python-bidi
+moviepy
+pillow

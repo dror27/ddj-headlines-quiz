@@ -46,12 +46,12 @@ def main():
     dp.add_handler(CommandHandler('credits', cmd.help.credits_handler))
     dp.add_handler(CommandHandler('qr', cmd.download.qr_handler))
     dp.add_handler(CommandHandler('wc', cmd.download.wc_handler))
+    dp.add_handler(CommandHandler('wcm', cmd.download.wc_movie_handler))
     dp.add_handler(CommandHandler('hd', cmd.download.headings_handler))
     dp.add_handler(CommandHandler('sources', cmd.sources.sources_handler))
     dp.add_handler(CommandHandler('domain', cmd.domain.domain_handler))
     dp.add_handler(CommandHandler('userinfo', cmd.userinfo.userinfo_handler))
     dp.add_handler(CommandHandler('hist', cmd.download.histograms_handler))
-
 
     logger.info("starting to poll")
     updater.start_polling()
