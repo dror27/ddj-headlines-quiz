@@ -9,6 +9,7 @@ import logging
 from bidi.algorithm import get_display
 import moviepy.video.io.ImageSequenceClip
 import PIL
+from pprint import pprint
 
 import core.db
 import core.user
@@ -56,6 +57,18 @@ def wc_movie_handler(update, context):
 	for path in image_files:
 		os.remove(path)
 
+def wc_anim_handler(update, context):
+	info, domain, keyword, historic = wc_prep(update)
+	if not historic:
+		historic = 10
+	html = '<html><body>%s</body></html>' % \
+			wc_anim(domain, keyword=keyword, historic=historic, top=30)
+	filename = "wc_%s_%d.html" % (domain, historic)
+
+	with tempfile.NamedTemporaryFile(suffix=".html") as tmp:
+		with open(tmp.name, "w") as f:
+			f.write(html)
+		update.message.reply_document(open(tmp.name, "rb"), filename=filename)
 
 def wc_prep(update):
 	info = core.user.get_user_info(update)
@@ -70,7 +83,7 @@ def wc_prep(update):
 
 def wc_image(path, domain, keyword=None, historic=0, addLabel=False):
 	text, label = wc_text(domain, keyword=keyword, historic=historic)
-	logger.info("text length: %d" % len(text))
+	#logger.info("text length: %d" % len(text))
 	if domain != "ilnews":
 		wc = wordcloud.WordCloud(width=400, height=200, random_state=1, 
 				background_color='black', colormap='Set2', collocations=False, 
@@ -81,15 +94,18 @@ def wc_image(path, domain, keyword=None, historic=0, addLabel=False):
 				font_path='ArialHB.ttc',
 				stopwords = stopwords).generate(get_display(text))
 
-	wc.to_file(path)
+	if path:
+		wc.to_file(path)
 
-	if addLabel:
-		anchor = (0, 0)
-		original = PIL.Image.open(path)
-		draw = PIL.ImageDraw.Draw(original)
-		draw.rectangle(((9, 0), (400, 10)), fill="black")
-		draw.text((0, 0), label)
-		original.save(path)
+		if addLabel:
+			anchor = (0, 0)
+			original = PIL.Image.open(path)
+			draw = PIL.ImageDraw.Draw(original)
+			draw.rectangle(((9, 0), (400, 10)), fill="black")
+			draw.text((0, 0), label)
+			original.save(path)
+
+	return wc, label
 
 
 def wc_text(domain, keyword=None, historic=0):
@@ -103,9 +119,11 @@ def wc_text(domain, keyword=None, historic=0):
 	if historic > 0:
 		from_ts = from_ts - datetime.timedelta(days=historic)
 		until_ts = from_ts + datetime.timedelta(days=1)
+	#print(domain, from_ts, until_ts)
 
 	# build label
-	label = "%s - %s" % (from_ts.strftime("%d/%m/%y"), until_ts.strftime("%d/%m/%y"))
+	#label = "%s - %s" % (from_ts.strftime("%d/%m/%y"), until_ts.strftime("%d/%m/%y"))
+	label = (from_ts + datetime.timedelta(seconds=1)).strftime("%d/%m/%y")
 
     # get heading for one of the sources
 	query_fields =  {
@@ -157,3 +175,175 @@ def histograms_handler(update, context):
 		buf.seek(0)
 		update.message.reply_photo(buf)
 
+def wc_anim(domain, keyword=None, historic=2, top=3):
+
+	# collect layouts, words (w/ initial layout)
+	layouts = []
+	labels = []
+	words = {}
+	for depth in reversed(range(historic)):
+		wc, label = wc_image(None, domain, keyword, depth, True)
+		labels.append(label)
+		layout = wc.layout_
+		if top:
+			layout = layout[:top]
+		layouts.append(layout)
+		for elem in layout:
+			word = elem[0][0]
+			if not word in words:
+				words[word] = elem
+
+	# build frames for each word
+	# start with a frame where all words are at their initial position with opacipy of 0
+	frames = {}
+	for word, layout in words.items():
+		elayout = (*layout, 0)
+		frames[word] = [elayout]
+
+	# add additional frames
+	for layout in layouts:
+
+		# add words in current layout
+		cwords = set(words.keys())
+		for elem in layout:
+			word = elem[0][0]
+			frames[word].append((*elem, 1))
+			words[word] = (*elem, 0)
+			cwords.remove(word)
+
+		# add words not in current layout
+		for word in cwords:
+			frames[word].append([*words[word], 0])
+
+
+	# generate svg
+	sizeFactor = 2
+	seqLength = len(layouts)
+	frameSize = 1 / (seqLength + 1)
+	stabilityPad = frameSize / 3
+	dur  = seqLength
+
+
+	svg = '';
+	svg += '''<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" style="background-color:black">
+<style>
+text{font-family:'Droid Sans Mono';font-weight:normal;font-style:normal;}
+  .label {
+    font-size: 2.6em;
+    text-anchor:middle;
+    font-weight: bold;
+    fill:grey;
+    x: 100px;
+    y: 100px;
+  }
+</style>
+''' % (int(400*sizeFactor), int((200+20)*sizeFactor))
+
+	# generate labels
+	i = 0
+	for label in labels:
+		i += 1
+		key1 = frameSize  * (i - 0.7)
+		key2 = frameSize  * (i - 0.5)
+		key3 = frameSize  * (i + 0.5)
+		key4 = frameSize  * (i + 0.7)
+		last = 1 if (i == len(labels)) else 0
+		innerSVG = '<animate attributeName="opacity" values="0; 0; 1; 1; %d; %d" keyTimes="0; %f; %f; %f; %f; 1" dur="%ds" begin="0s" fill="freeze"/>\n' % \
+							(last, last, key1, key2, key3, key4, dur)
+		svg += '<text class="label" x="%d" y="%d" style="opacity:0">%s%s</text>\n' % \
+					(sizeFactor * 200, sizeFactor * 20, innerSVG, label)
+
+	# generate words
+	for word, elem in words.items():
+		clazz = "w_%s" % word
+		fontSize = sizeFactor * elem[1]
+		y = sizeFactor * (elem[2][0] + fontSize / sizeFactor * 3 // 4)
+		y = 0
+		x = sizeFactor * elem[2][1]
+		fill = elem[4]
+		rotate = 90 if elem[3] else 0
+		innerSVG, innerSVG2 = anim_elem(frames[word], len(layouts), sizeFactor, frameSize, stabilityPad, dur)
+		svg += (' <g><text class="%s" transform="translate(%d,%d) rotate(%d)" font-size="%d" style="opacity:0; fill:%s">%s%s</text>%s</g>\n' % 
+					(clazz, x, y, rotate, fontSize, fill, innerSVG, word, innerSVG2))
+	svg += "</svg>\n"
+
+	return svg
+
+def anim_elem(elayouts, seqLength, sizeFactor, frameSize, stabilityPad, dur):
+
+	# generate key frames
+	keyFrames = [0]
+	for n in range(seqLength):
+		center = (n + 1) * frameSize
+		keyFrames.append(center - stabilityPad)
+		keyFrames.append(center + stabilityPad)
+	keyFrames.append(1)
+
+	# generate series for font size, opacity
+	fontSizes = []
+	opacity = []
+	fill = []
+	location = []
+	rotate = []
+	fontSize = sizeFactor * elayouts[0][1]
+	fontSizes.append(fontSize)
+	opacity.append(elayouts[0][5])
+	fill.append(elayouts[0][4])
+	y = sizeFactor * (elayouts[0][2][0] + fontSize / sizeFactor * 3 // 4)
+	y = 0
+	x = sizeFactor * elayouts[0][2][1]
+	location.append("%d,%d" % (x, y))
+	rotate.append(90 if elayouts[0][3] else 0)
+	for elayout in elayouts[1:]:
+		fontSize = sizeFactor * elayout[1]
+		fontSizes.append(fontSize)
+		fontSizes.append(fontSize)
+
+		opacity.append(elayout[5])
+		opacity.append(elayout[5])
+
+		fill.append(elayout[4])
+		fill.append(elayout[4])
+
+		y = sizeFactor * (20 + elayout[2][0] + fontSize / sizeFactor * 3 // 4)
+		x = sizeFactor * elayout[2][1]
+		location.append("%d,%d" % (x, y))
+		location.append("%d,%d" % (x, y))
+
+		rotate.append(90 if elayout[3] else 0)
+		rotate.append(90 if elayout[3] else 0)
+
+	fontSize = sizeFactor * elayouts[-1][1]
+	fontSizes.append(fontSize)
+	opacity.append(elayouts[-1][5])
+	fill.append(elayouts[-1][4])
+	y = sizeFactor * (20 + elayouts[-1][2][0] + fontSize / sizeFactor * 3 // 4)
+	x = sizeFactor * elayouts[-1][2][1]
+	location.append("%d,%d" % (x, y))
+	rotate.append(90 if elayouts[-1][3] else 0)
+
+	#　generate animation tags
+	anim = ""
+	anim2 = ""
+	keyTimes = "; ".join(["{:.2f}".format(x) for x in keyFrames])
+	anim += '''<animate attributeName="font-size" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
+					("; ".join([str(x) for x in fontSizes]), keyTimes, dur)
+	anim += '''<animate attributeName="opacity" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
+					("; ".join([str(x) for x in opacity]), keyTimes, dur)
+	anim += '''<animate attributeName="fill" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
+					("; ".join(fill), keyTimes, dur)
+	anim2 += '''<animateTransform attributeName="transform" type="translate" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
+					("; ".join(location), keyTimes, dur)
+	anim += '''<animateTransform attributeName="transform" type="rotate" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
+					("; ".join([str(x) for x in rotate]), keyTimes, dur)
+
+
+
+	return (anim, anim2)
+
+def main():
+	svg = wc_anim("uknews", historic=5, top=5)
+	print(svg)
+
+if __name__ == '__main__':
+    main()

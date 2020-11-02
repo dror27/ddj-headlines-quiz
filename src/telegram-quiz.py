@@ -47,6 +47,7 @@ def main():
     dp.add_handler(CommandHandler('qr', cmd.download.qr_handler))
     dp.add_handler(CommandHandler('wc', cmd.download.wc_handler))
     dp.add_handler(CommandHandler('wcm', cmd.download.wc_movie_handler))
+    dp.add_handler(CommandHandler('wca', cmd.download.wc_anim_handler))
     dp.add_handler(CommandHandler('hd', cmd.download.headings_handler))
     dp.add_handler(CommandHandler('sources', cmd.sources.sources_handler))
     dp.add_handler(CommandHandler('domain', cmd.domain.domain_handler))
