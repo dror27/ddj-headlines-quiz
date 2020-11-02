@@ -73,6 +73,17 @@ def db_headings_iter(domain, since=datetime.datetime.min):
     return get_db().headings.find(query)
 
 
+def db_top_headings_iter(domain, source=None, keyword=None):
+    query = {
+        "_source.domain": domain
+    }
+    if keyword:
+        query["$text"] = {"$search": keyword}
+    if source:
+        query["_source.name"] = source
+
+    return get_db().headings.find(query).sort("_timestamp", -1)
+
 
 def db_vars():
     username = db_env("DBUSER", "root")

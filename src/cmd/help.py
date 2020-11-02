@@ -39,6 +39,11 @@ def short_handler(update, context):
 /hd - headings download
 /hist - get word count histograms
 
+/top - get top headlines
+/top N - get top N headlines
+/top keyword - get top headlines with keyword
+/tops - get top headlines per source (same options as /top)
+
 /h - /help
 """)
 

@@ -21,6 +21,7 @@ import cmd.sources
 import cmd.domain
 import cmd.userinfo
 import cmd.download
+import cmd.top
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -53,6 +54,8 @@ def main():
     dp.add_handler(CommandHandler('domain', cmd.domain.domain_handler))
     dp.add_handler(CommandHandler('userinfo', cmd.userinfo.userinfo_handler))
     dp.add_handler(CommandHandler('hist', cmd.download.histograms_handler))
+    dp.add_handler(CommandHandler('top', cmd.top.top_handler))
+    dp.add_handler(CommandHandler('tops', cmd.top.tops_handler))
 
     logger.info("starting to poll")
     updater.start_polling()
