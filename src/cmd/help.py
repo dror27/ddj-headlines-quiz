@@ -35,7 +35,8 @@ def short_handler(update, context):
 
 /qr - send qr code
 /wc - generate a wordcloud
-/wca - generate a animated wordcloud
+/wca - generate a animated wordcloud (daily)
+/wch - generate a animated wordcloud (hourly)
 /hd - headings download
 /hist - get word count histograms
 

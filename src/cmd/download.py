@@ -10,6 +10,7 @@ from bidi.algorithm import get_display
 import moviepy.video.io.ImageSequenceClip
 import PIL
 from pprint import pprint
+import re
 
 import core.db
 import core.user
@@ -57,12 +58,12 @@ def wc_movie_handler(update, context):
 	for path in image_files:
 		os.remove(path)
 
-def wc_anim_handler(update, context):
+def wc_anim_handler(update, context, hourly=False, top=100):
 	info, domain, keyword, historic = wc_prep(update)
 	if not historic:
 		historic = 10
 	html = '<html><body>%s</body></html>' % \
-			wc_anim(domain, keyword=keyword, historic=historic, top=30)
+			wc_anim(domain, keyword=keyword, historic=historic, top=top, hourly=hourly)
 	filename = "wc_%s_%d.html" % (domain, historic)
 
 	with tempfile.NamedTemporaryFile(suffix=".html") as tmp:
@@ -81,8 +82,8 @@ def wc_prep(update):
 	return (info, domain, keyword, historic)
 
 
-def wc_image(path, domain, keyword=None, historic=0, addLabel=False):
-	text, label = wc_text(domain, keyword=keyword, historic=historic)
+def wc_image(path, domain, keyword=None, historic=0, addLabel=False, hourly=False):
+	text, label = wc_text(domain, keyword=keyword, historic=historic, hourly=hourly)
 	#logger.info("text length: %d" % len(text))
 	if domain != "ilnews":
 		wc = wordcloud.WordCloud(width=400, height=200, random_state=1, 
@@ -108,22 +109,33 @@ def wc_image(path, domain, keyword=None, historic=0, addLabel=False):
 	return wc, label
 
 
-def wc_text(domain, keyword=None, historic=0):
+def wc_text(domain, keyword=None, historic=0, hourly=False):
 	db = core.db.get_db()
 
 	# establish initial limits
 	until_ts = datetime.datetime.now()
-	from_ts = datetime.datetime.combine(datetime.date.today(), datetime.datetime.min.time())
+	if not hourly:
+		from_ts = datetime.datetime.combine(datetime.date.today(), datetime.datetime.min.time())
 
-	# walk back into history (in steps of days
-	if historic > 0:
-		from_ts = from_ts - datetime.timedelta(days=historic)
-		until_ts = from_ts + datetime.timedelta(days=1)
-	#print(domain, from_ts, until_ts)
+		# walk back into history (in steps of days
+		if historic > 0:
+			from_ts = from_ts - datetime.timedelta(days=historic)
+			until_ts = from_ts + datetime.timedelta(days=1)
+	else:
+		from_ts = until_ts - datetime.timedelta(hours=2)
+		mid_ts = until_ts - datetime.timedelta(hours=1)
+		if historic > 0:
+			from_ts = from_ts - datetime.timedelta(hours=historic)
+			mid_ts = from_ts + datetime.timedelta(hours=1)
+			until_ts = from_ts + datetime.timedelta(hours=2)
+
+	print(domain, from_ts, until_ts)
 
 	# build label
-	#label = "%s - %s" % (from_ts.strftime("%d/%m/%y"), until_ts.strftime("%d/%m/%y"))
-	label = (from_ts + datetime.timedelta(seconds=1)).strftime("%d/%m/%y")
+	if not hourly:
+		label = (from_ts + datetime.timedelta(seconds=1)).strftime("%d/%m/%y")
+	else:
+		label = until_ts.strftime("%H:%M")
 
     # get heading for one of the sources
 	query_fields =  {
@@ -151,7 +163,16 @@ def wc_text(domain, keyword=None, historic=0):
 	text = ""
 	for heading in db.headings.find(query_fields):
 		text += (" " + heading["title"])
-	return text, label
+		if  heading["_timestamp"] >= mid_ts:
+			text += (" " + heading["title"])
+	if not text:
+		text = "none"
+	return cleanup_text(text), label
+
+def cleanup_text(text):
+
+	toks = [x if x.isupper() else x.capitalize() for x in re.split(r"\W[\W']*", text)]
+	return " ".join(toks)
 
 def headings_handler(update, context):
 
@@ -175,14 +196,14 @@ def histograms_handler(update, context):
 		buf.seek(0)
 		update.message.reply_photo(buf)
 
-def wc_anim(domain, keyword=None, historic=2, top=3):
+def wc_anim(domain, keyword=None, historic=2, top=3, hourly=False):
 
 	# collect layouts, words (w/ initial layout)
 	layouts = []
 	labels = []
 	words = {}
 	for depth in reversed(range(historic)):
-		wc, label = wc_image(None, domain, keyword, depth, True)
+		wc, label = wc_image(None, domain, keyword, depth, True, hourly=hourly)
 		labels.append(label)
 		layout = wc.layout_
 		if top:
@@ -325,12 +346,13 @@ def anim_elem(elayouts, seqLength, sizeFactor, frameSize, stabilityPad, dur):
 	#　generate animation tags
 	anim = ""
 	anim2 = ""
+	animX = ""
 	keyTimes = "; ".join(["{:.2f}".format(x) for x in keyFrames])
 	anim += '''<animate attributeName="font-size" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
 					("; ".join([str(x) for x in fontSizes]), keyTimes, dur)
 	anim += '''<animate attributeName="opacity" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
 					("; ".join([str(x) for x in opacity]), keyTimes, dur)
-	anim += '''<animate attributeName="fill" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
+	animX += '''<animate attributeName="fill" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
 					("; ".join(fill), keyTimes, dur)
 	anim2 += '''<animateTransform attributeName="transform" type="translate" values="%s" keyTimes="%s" dur="%ds" begin="0s" fill="freeze"/>\n''' % \
 					("; ".join(location), keyTimes, dur)

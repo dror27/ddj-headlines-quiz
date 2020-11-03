@@ -4,6 +4,7 @@ import cmd.common
 import core.db
 import core.user
 import datetime
+import os
 
 def sources_handler(update, context):
 
@@ -45,3 +46,9 @@ def sources_handler(update, context):
 	    	line += " (%d)" % counts[source["name"]]
 	    msg += (line + "\n")
 	update.message.reply_text(msg)
+
+
+def update_handler(update, context):
+
+	os.system("python ./rss-headings.py")
+	update.message.reply_text("updated.")

@@ -46,9 +46,18 @@ def main():
     dp.add_handler(CommandHandler('short', cmd.help.short_handler))
     dp.add_handler(CommandHandler('credits', cmd.help.credits_handler))
     dp.add_handler(CommandHandler('qr', cmd.download.qr_handler))
+
     dp.add_handler(CommandHandler('wc', cmd.download.wc_handler))
     dp.add_handler(CommandHandler('wcm', cmd.download.wc_movie_handler))
     dp.add_handler(CommandHandler('wca', cmd.download.wc_anim_handler))
+    dp.add_handler(CommandHandler('wch', lambda update,context: cmd.download.wc_anim_handler(update, context, hourly=True)))
+    dp.add_handler(CommandHandler('wch5', lambda update,context: cmd.download.wc_anim_handler(update, context, hourly=True, top=5)))
+    dp.add_handler(CommandHandler('wch10', lambda update,context: cmd.download.wc_anim_handler(update, context, hourly=True, top=10)))
+    dp.add_handler(CommandHandler('wch15', lambda update,context: cmd.download.wc_anim_handler(update, context, hourly=True, top=15)))
+    dp.add_handler(CommandHandler('wch20', lambda update,context: cmd.download.wc_anim_handler(update, context, hourly=True, top=20)))
+    dp.add_handler(CommandHandler('wch25', lambda update,context: cmd.download.wc_anim_handler(update, context, hourly=True, top=25)))
+    dp.add_handler(CommandHandler('wch30', lambda update,context: cmd.download.wc_anim_handler(update, context, hourly=True, top=30)))
+
     dp.add_handler(CommandHandler('hd', cmd.download.headings_handler))
     dp.add_handler(CommandHandler('sources', cmd.sources.sources_handler))
     dp.add_handler(CommandHandler('domain', cmd.domain.domain_handler))
@@ -56,6 +65,9 @@ def main():
     dp.add_handler(CommandHandler('hist', cmd.download.histograms_handler))
     dp.add_handler(CommandHandler('top', cmd.top.top_handler))
     dp.add_handler(CommandHandler('tops', cmd.top.tops_handler))
+
+    dp.add_handler(CommandHandler('rss', cmd.sources.update_handler))
+
 
     logger.info("starting to poll")
     updater.start_polling()
