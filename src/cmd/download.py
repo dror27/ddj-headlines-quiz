@@ -163,8 +163,9 @@ def wc_text(domain, keyword=None, historic=0, hourly=False):
 	text = ""
 	for heading in db.headings.find(query_fields):
 		text += (" " + heading["title"])
-		if  heading["_timestamp"] >= mid_ts:
-			text += (" " + heading["title"])
+		if hourly:
+			if  heading["_timestamp"] >= mid_ts:
+				text += (" " + heading["title"])
 	if not text:
 		text = "none"
 	return cleanup_text(text), label
