@@ -180,11 +180,14 @@ def headings_handler(update, context):
 	info = core.user.get_user_info(update)
 	domain = core.user.get_user_domain(info)
 
-	with tempfile.NamedTemporaryFile() as tmp:
+	with tempfile.NamedTemporaryFile(delete=False) as tmp:
 		core.db.db_export("headings", domain, tmp.name, 
 			"_id,title,link,summary,published,credit,author,updated,_source.name,_source.domain,_source.rss,_source.url,_fetched,_timestamp")
 		filename = "%s_headlines_%s.csv" % (domain, datetime.datetime.now().strftime("%y%m%d"))
-		update.message.reply_document(open(tmp.name, 'rb'), filename=filename)
+		os.system("gzip " + tmp.name)
+		os.system("ls -l " + tmp.name + "*")
+		update.message.reply_document(open(tmp.name + ".gz", 'rb'), filename=filename + ".gz")
+		os.remove(tmp.name + ".gz")
 
 def histograms_handler(update, context):
 	info = core.user.get_user_info(update)
