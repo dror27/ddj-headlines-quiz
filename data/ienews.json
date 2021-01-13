@@ -1,0 +1,74 @@
+[
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "Irish Central",
+    "rss": "https://www.irishcentral.com/feeds/section-articles.atom",
+    "url": "https://www.irishcentral.com/"
+  },
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "Irish Times",
+    "rss": "https://www.irishtimes.com/rss/activecampaign-business-today-digest-more-from-business-1.3180340",
+    "url": "https://www.irishtimes.com/"
+  },
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "Independent.ie",
+    "rss": "https://www.independent.ie/breaking-news/rss/",
+    "url": "https://www.independent.ie/"
+  },
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "Irish Mirror",
+    "rss": "https://www.irishmirror.ie/?service=rss",
+    "url": "https://www.irishmirror.ie/"
+  },
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "BreakingNews.ie",
+    "rss": "https://feeds.breakingnews.ie/bntopstories?format=xml",
+    "url": "https://www.breakingnews.ie/"
+  },
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "TheJournal.ie",
+    "rss": "https://www.thejournal.ie/feed/",
+    "url": "https://www.thejournal.ie/"
+  },
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "RT News",
+    "rss": "https://www.rte.ie/feeds/rss/?index=/news/",
+    "url": "https://www.rte.ie/news/"
+  },
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "The Irish Sun",
+    "rss": "https://www.thesun.ie/feed/",
+    "url": "https://www.thesun.ie/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "The42",
+    "rss": "https://www.the42.ie/feed/",
+    "url": "https://www.the42.ie/"
+  },
+  {
+    "domain": "ienews",
+    "lang": "en",
+    "name": "Irish Tech News",
+    "rss": "https://irishtechnews.ie/feed/",
+    "url": "https://irishtechnews.ie/"
+  }
+
+]
