@@ -3,7 +3,9 @@
 import cmd.common
 import core.db
 import core.user
+import core.rss
 import datetime
+from pprint import pprint
 
 def top_handler(update, context):
 
@@ -52,8 +54,9 @@ def tops_handler(update, context):
 def build_top(domain, keyword=None, source=None, limit=10, prefix=""):
 	top = ""
 	for h in core.db.db_top_headings_iter(domain, keyword=keyword, source=source):
+		#pprint(h)
 		top += '%s%s: %s - [%s](%s)\n' % \
-			(prefix, h["_timestamp"].strftime("%H:%M:%S"), h["title"], h["_source"]["name"], h["link"])
+			(prefix, h["_timestamp"].strftime("%H:%M:%S"), h["title"], h["_source"]["name"], core.rss.get_entry_link(h))
 		limit -= 1
 		if not limit:
 			break
