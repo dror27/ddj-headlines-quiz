@@ -1,0 +1,82 @@
+[
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "The Japan Times",
+    "rss": "https://www.japantimes.co.jp/feed",
+    "url": "https://www.japantimes.co.jp/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "Japan Today",
+    "rss": "https://japantoday.com/feed/atom",
+    "url": "https://japantoday.com/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "Asahi Shimbun Digital",
+    "rss": "http://rss.asahi.com/rss/asahi/newsheadlines.rdf",
+    "url": "https://www.asahi.com/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "RocketNews24",
+    "rss": "http://feeds.rocketnews24.com/rocketnews24/en",
+    "url": "https://soranews24.com/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "The Tokyo Reporter",
+    "rss": "https://www.tokyoreporter.com/feed/",
+    "url": "https://www.tokyoreporter.com/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "News On Japan",
+    "rss": "http://www.newsonjapan.com/rss/top.xml",
+    "url": "http://www.newsonjapan.com/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "NHK News Web",
+    "rss": "http://www3.nhk.or.jp/rss/news/cat0.xml",
+    "url": "http://www3.nhk.or.jp/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "Japan Industry News",
+    "rss": "https://www.japanindustrynews.com/feed/",
+    "url": "https://www.japanindustrynews.com/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "Kyodo News",
+    "rss": "https://english.kyodonews.net/rss/all.xml",
+    "url": "https://english.kyodonews.net/",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  },
+  {
+    "domain": "jpnews_en",
+    "land": "en",
+    "name": "The New York Times Â» Japan",
+    "rss": "https://www.nytimes.com/svc/collections/v1/publish/http://www.nytimes.com/topic/destination/japan/rss.xml",
+    "url": "https://www.nytimes.com/topic/destination/japan",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  }
+]
