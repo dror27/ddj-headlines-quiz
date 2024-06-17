@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:20.04 AS base
 
 RUN apt-get update \
   && apt-get install -y python3-pip python3-dev \
@@ -20,6 +20,8 @@ COPY requirements.txt .
 
 # install dependencies
 RUN pip install -r requirements.txt
+
+FROM base AS full
 
 # copy the content of the local src directory to the working directory
 COPY src/ .
