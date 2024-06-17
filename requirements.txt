@@ -1,6 +1,6 @@
 pymongo
 feedparser
-python-telegram-bot
+python-telegram-bot==13.1
 wordcloud
 python-bidi
 moviepy

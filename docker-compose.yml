@@ -6,12 +6,10 @@ services:
   mongo:
     image: mongo
     restart: always
-    ports:
-      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: mongo
-  
+
   mongo-express:
     image: mongo-express
     restart: always
@@ -20,15 +18,12 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: mongo
+      ME_CONFIG_MONGODB_URL: mongodb://root:mongo@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
 
   hqbot:
     image: hqbot_u
     restart: always
     environment:
       TEL_BOT_TOKEN:
-      TEL_BOT_DBFORK: 1
-
-
-
-
-
+      TEL_BOT_DBFORK: 1      

@@ -14,8 +14,8 @@ def get_db():
 
     # open database connection
     username, password, host = db_vars()
-    url = ('mongodb://%s:%s@' + host) % (username, password)
-    #logger.info("url: " + url)
+    url = ('mongodb://%s:%s@' + host + ':27017') % (username, password)
+    logger.info("url: " + url)
     client = MongoClient(url)
     db = client.headings
     return db
@@ -87,7 +87,7 @@ def db_top_headings_iter(domain, source=None, keyword=None):
 
 def db_vars():
     username = db_env("DBUSER", "root")
-    password=  db_env("DBPASS", "mongo")
+    password = db_env("DBPASS", "mongo")
     host = db_env("DBHOST", "mongo")
     return (username, password, host)
 
